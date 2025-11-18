@@ -37,8 +37,8 @@ graph TB
     classDef core fill:#f3e5f5,stroke:#333;
     classDef ue fill:#e1f5fe,stroke:#333;
 
-    class A,ue
-    class B,C,D,E,F,G,H,I,J,core
+    class A ue
+    class B,C,D,E,F,G,H,I,J core
 ```
 
 ## Diagram 2: Management Plane Architecture
@@ -103,13 +103,13 @@ graph TB
     classDef viz fill:#fff3e0,stroke:#333;
     classDef nf fill:#f1f8e9,stroke:#333;
 
-    class A,C,client
-    class B,D,manager
-    class E,models
-    class F,G,config
-    class H,I,J,perf
-    class K,L,viz
-    class M,N,O,P,nf
+    class A,C client
+    class B,D manager
+    class E models
+    class F,G config
+    class H,I,J perf
+    class K,L viz
+    class M,N,O,P nf
 ```
 
 ## Diagram 3: System Component Interaction

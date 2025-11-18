@@ -7,7 +7,8 @@ This agent exposes metrics from 5G core network functions via SNMP.
 
 from pysnmp.entity import engine, config
 from pysnmp.entity.rfc3413 import cmdrsp, context
-from pysnmp.carrier.asyncio.dgram import udp
+from pysnmp.carrier.asyncore.dispatch import AsyncoreDispatcher
+from pysnmp.carrier.asyncore.dgram import udp
 from pysnmp.proto.api import v2c
 import random
 import time
@@ -84,9 +85,6 @@ class SNMPAgent:
             self.snmpEngine, '5g-core-params', '5g-core-agent', 'noAuthNoPriv', 1
         )
 
-        # Register MIB variables
-        self.register_mib_variables()
-
         # Create SNMP context
         self.snmpContext = context.SnmpContext(self.snmpEngine)
 
@@ -95,56 +93,6 @@ class SNMPAgent:
         cmdrsp.SetCommandResponder(self.snmpEngine, self.snmpContext)
         cmdrsp.NextCommandResponder(self.snmpEngine, self.snmpContext)
         cmdrsp.BulkCommandResponder(self.snmpEngine, self.snmpContext)
-
-    def register_mib_variables(self):
-        """Register MIB variables with the SNMP engine"""
-        # AMF metrics
-        config.addStaticVarBinds(
-            self.snmpEngine, AMF_ACTIVE_SESSIONS_OID,
-            v2c.Integer32(metrics['amf_active_sessions'])
-        )
-        
-        config.addStaticVarBinds(
-            self.snmpEngine, AMF_CPU_UTILIZATION_OID,
-            v2c.Integer32(metrics['amf_cpu_utilization'])
-        )
-        
-        config.addStaticVarBinds(
-            self.snmpEngine, AMF_MEMORY_UTILIZATION_OID,
-            v2c.Integer32(metrics['amf_memory_utilization'])
-        )
-
-        # SMF metrics
-        config.addStaticVarBinds(
-            self.snmpEngine, SMF_ACTIVE_PDU_SESSIONS_OID,
-            v2c.Integer32(metrics['smf_active_pdu_sessions'])
-        )
-        
-        config.addStaticVarBinds(
-            self.snmpEngine, SMF_CPU_UTILIZATION_OID,
-            v2c.Integer32(metrics['smf_cpu_utilization'])
-        )
-        
-        config.addStaticVarBinds(
-            self.snmpEngine, SMF_MEMORY_UTILIZATION_OID,
-            v2c.Integer32(metrics['smf_memory_utilization'])
-        )
-
-        # UPF metrics
-        config.addStaticVarBinds(
-            self.snmpEngine, UPF_ACTIVE_USERS_OID,
-            v2c.Integer32(metrics['upf_active_users'])
-        )
-        
-        config.addStaticVarBinds(
-            self.snmpEngine, UPF_THROUGHPUT_OID,
-            v2c.Integer32(metrics['upf_throughput'])
-        )
-        
-        config.addStaticVarBinds(
-            self.snmpEngine, UPF_PACKET_LOSS_OID,
-            v2c.OctetString(str(metrics['upf_packet_loss']))
-        )
 
     def start(self):
         """Start the SNMP agent"""
@@ -157,12 +105,13 @@ class SNMPAgent:
         metrics_thread.daemon = True
         metrics_thread.start()
         
-        # Run the SNMP engine
+        # Create and run the SNMP dispatcher
+        dispatcher = AsyncoreDispatcher()
         try:
-            self.snmpEngine.transportDispatcher.runDispatcher()
+            dispatcher.runDispatcher()
         except KeyboardInterrupt:
             print("\nShutting down SNMP agent...")
-            self.snmpEngine.transportDispatcher.closeDispatcher()
+            dispatcher.closeDispatcher()
             raise
 
 if __name__ == "__main__":
