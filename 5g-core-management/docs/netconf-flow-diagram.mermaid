@@ -1,0 +1,38 @@
+sequenceDiagram
+    participant Client as Management Client
+    participant NETCONF as NETCONF Server
+    participant Yang as YANG Models
+    participant AMF as AMF
+    participant DB as Database
+
+    Client->>NETCONF: SSH Connection (Port 830)
+    Note over Client,NETCONF: Hello Exchange
+    
+    Client->>NETCONF: <get-config>
+    NETCONF->>Yang: Validate Request
+    NETCONF->>DB: Retrieve Configuration
+    DB-->>NETCONF: Configuration Data
+    NETCONF-->>Client: <rpc-reply> with Config
+    
+    Client->>NETCONF: <edit-config>
+    Note over Client,NETCONF: Configuration Changes
+    NETCONF->>Yang: Validate Configuration
+    NETCONF->>DB: Update Configuration
+    DB-->>NETCONF: Confirmation
+    NETCONF->>AMF: Apply Configuration
+    AMF-->>NETCONF: Acknowledgment
+    NETCONF-->>Client: <rpc-reply> Success
+    
+    Client->>NETCONF: <commit>
+    NETCONF->>AMF: Commit Changes
+    AMF-->>NETCONF: Commit Acknowledgment
+    NETCONF-->>Client: <rpc-reply> Success
+    
+    Client->>NETCONF: SSH Disconnect
+    Note over Client,NETCONF: Session Termination
+
+    style Client fill:#e3f2fd,stroke:#333
+    style NETCONF fill:#f3e5f5,stroke:#333
+    style Yang fill:#fce4ec,stroke:#333
+    style AMF fill:#f1f8e9,stroke:#333
+    style DB fill:#e0f2f1,stroke:#333

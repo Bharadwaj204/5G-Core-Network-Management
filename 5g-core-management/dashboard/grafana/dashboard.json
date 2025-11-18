@@ -1,0 +1,133 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "5G Core Network Monitoring",
+    "tags": ["5g", "core", "network"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "5s",
+    "panels": [
+      {
+        "id": 1,
+        "type": "graph",
+        "title": "AMF Metrics",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 9
+        },
+        "targets": [
+          {
+            "target": "amf_active_sessions"
+          },
+          {
+            "target": "amf_cpu_utilization"
+          },
+          {
+            "target": "amf_memory_utilization"
+          }
+        ],
+        "datasource": "5G-Core-SNMP"
+      },
+      {
+        "id": 2,
+        "type": "graph",
+        "title": "SMF Metrics",
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 9
+        },
+        "targets": [
+          {
+            "target": "smf_active_pdu_sessions"
+          },
+          {
+            "target": "smf_cpu_utilization"
+          },
+          {
+            "target": "smf_memory_utilization"
+          }
+        ],
+        "datasource": "5G-Core-SNMP"
+      },
+      {
+        "id": 3,
+        "type": "graph",
+        "title": "UPF Metrics",
+        "gridPos": {
+          "x": 0,
+          "y": 9,
+          "w": 12,
+          "h": 9
+        },
+        "targets": [
+          {
+            "target": "upf_active_users"
+          },
+          {
+            "target": "upf_throughput"
+          },
+          {
+            "target": "upf_packet_loss"
+          }
+        ],
+        "datasource": "5G-Core-SNMP"
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Current Active Sessions",
+        "gridPos": {
+          "x": 12,
+          "y": 9,
+          "w": 4,
+          "h": 3
+        },
+        "targets": [
+          {
+            "target": "amf_active_sessions"
+          }
+        ],
+        "datasource": "5G-Core-SNMP"
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Current Active Users",
+        "gridPos": {
+          "x": 16,
+          "y": 9,
+          "w": 4,
+          "h": 3
+        },
+        "targets": [
+          {
+            "target": "upf_active_users"
+          }
+        ],
+        "datasource": "5G-Core-SNMP"
+      },
+      {
+        "id": 6,
+        "type": "stat",
+        "title": "Current Throughput",
+        "gridPos": {
+          "x": 20,
+          "y": 9,
+          "w": 4,
+          "h": 3
+        },
+        "targets": [
+          {
+            "target": "upf_throughput"
+          }
+        ],
+        "datasource": "5G-Core-SNMP"
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+sequenceDiagram
+    participant Client as Management Client
+    participant RESTCONF as RESTCONF API
+    participant Yang as YANG Models
+    participant SMF as SMF
+    participant DB as Database
+
+    Client->>RESTCONF: HTTP GET /restconf/data/network-functions
+    RESTCONF->>Yang: Validate Request
+    RESTCONF->>DB: Retrieve Data
+    DB-->>RESTCONF: Network Functions Data
+    RESTCONF-->>Client: JSON Response
+    
+    Client->>RESTCONF: HTTP POST /restconf/data/network-functions/amf
+    Note over Client,RESTCONF: Create New AMF
+    RESTCONF->>Yang: Validate Payload
+    RESTCONF->>DB: Store New AMF
+    DB-->>RESTCONF: Confirmation
+    RESTCONF->>SMF: Notify Configuration Change
+    SMF-->>RESTCONF: Acknowledgment
+    RESTCONF-->>Client: JSON Response (201 Created)
+    
+    Client->>RESTCONF: HTTP PUT /restconf/data/network-functions/amf/amf-001
+    Note over Client,RESTCONF: Update Existing AMF
+    RESTCONF->>Yang: Validate Payload
+    RESTCONF->>DB: Update AMF
+    DB-->>RESTCONF: Confirmation
+    RESTCONF->>SMF: Apply Configuration
+    SMF-->>RESTCONF: Acknowledgment
+    RESTCONF-->>Client: JSON Response
+    
+    Client->>RESTCONF: HTTP DELETE /restconf/data/network-functions/amf/amf-001
+    RESTCONF->>DB: Remove AMF
+    DB-->>RESTCONF: Confirmation
+    RESTCONF->>SMF: Notify Removal
+    SMF-->>RESTCONF: Acknowledgment
+    RESTCONF-->>Client: HTTP 204 No Content
+
+    style Client fill:#e3f2fd,stroke:#333
+    style RESTCONF fill:#f3e5f5,stroke:#333
+    style Yang fill:#fce4ec,stroke:#333
+    style SMF fill:#f1f8e9,stroke:#333
+    style DB fill:#e0f2f1,stroke:#333

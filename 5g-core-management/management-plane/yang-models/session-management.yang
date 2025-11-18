@@ -1,0 +1,96 @@
+module session-management {
+  yang-version 1.1;
+  namespace "urn:5g-core:session-management";
+  prefix "sess-mgmt";
+
+  organization "5G Learning Initiative";
+  contact "support@5g-learning.org";
+  description
+    "YANG model for 5G Session Management";
+
+  revision 2025-11-18 {
+    description "Initial revision";
+  }
+
+  container sessions {
+    description "Container for session management";
+    
+    list pdu-session {
+      key "session-id";
+      description "List of PDU sessions";
+      
+      leaf session-id {
+        type string;
+        description "Unique identifier for the PDU session";
+      }
+      
+      leaf imsi {
+        type string;
+        description "International Mobile Subscriber Identity";
+      }
+      
+      leaf status {
+        type enumeration {
+          enum "active";
+          enum "inactive";
+          enum "released";
+        }
+        default "inactive";
+        description "Session status";
+      }
+      
+      leaf sst {
+        type uint8;
+        description "Slice/Service Type";
+      }
+      
+      leaf sd {
+        type string;
+        description "Slice Differentiator";
+      }
+      
+      leaf dnn {
+        type string;
+        description "Data Network Name";
+      }
+      
+      container qos {
+        description "QoS parameters";
+        
+        leaf qfi {
+          type uint8;
+          description "QoS Flow Identifier";
+        }
+        
+        leaf arp {
+          type uint8;
+          description "Allocation and Retention Priority";
+        }
+        
+        leaf gbr-ul {
+          type string;
+          units "bps";
+          description "Guaranteed Bit Rate - Uplink";
+        }
+        
+        leaf gbr-dl {
+          type string;
+          units "bps";
+          description "Guaranteed Bit Rate - Downlink";
+        }
+        
+        leaf mbr-ul {
+          type string;
+          units "bps";
+          description "Maximum Bit Rate - Uplink";
+        }
+        
+        leaf mbr-dl {
+          type string;
+          units "bps";
+          description "Maximum Bit Rate - Downlink";
+        }
+      }
+    }
+  }
+}

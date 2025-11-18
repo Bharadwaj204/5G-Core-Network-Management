@@ -1,0 +1,88 @@
+module subscriber-management {
+  yang-version 1.1;
+  namespace "urn:5g-core:subscriber-management";
+  prefix "sub-mgmt";
+
+  organization "5G Learning Initiative";
+  contact "support@5g-learning.org";
+  description
+    "YANG model for 5G Subscriber Management";
+
+  revision 2025-11-18 {
+    description "Initial revision";
+  }
+
+  container subscribers {
+    description "Container for subscriber management";
+    
+    list subscriber {
+      key "imsi";
+      description "List of subscribers";
+      
+      leaf imsi {
+        type string;
+        description "International Mobile Subscriber Identity";
+      }
+      
+      leaf msisdn {
+        type string;
+        description "Mobile Station International Subscriber Directory Number";
+      }
+      
+      leaf status {
+        type enumeration {
+          enum "active";
+          enum "inactive";
+          enum "suspended";
+        }
+        default "inactive";
+        description "Subscriber status";
+      }
+      
+      leaf apn {
+        type string;
+        description "Access Point Name";
+      }
+      
+      leaf qci {
+        type uint8;
+        description "QoS Class Identifier";
+      }
+      
+      leaf arp {
+        type uint8;
+        description "Allocation and Retention Priority";
+      }
+      
+      container security {
+        description "Security parameters";
+        
+        leaf auth-key {
+          type string;
+          description "Authentication key (KI)";
+        }
+        
+        leaf opc {
+          type string;
+          description "Operator variant algorithm configuration field";
+        }
+      }
+      
+      container ambr {
+        description "Aggregate Maximum Bit Rate";
+        
+        leaf uplink {
+          type string;
+          units "bps";
+          description "Uplink bandwidth limit";
+        }
+        
+        leaf downlink {
+          type string;
+          units "bps";
+          description "Downlink bandwidth limit";
+        }
+      }
+    }
+  }
+}

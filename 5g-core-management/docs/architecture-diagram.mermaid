@@ -1,0 +1,67 @@
+graph TB
+    subgraph "5G Core Management Prototype"
+        subgraph "5G Core Network"
+            A[UE] <-- N1/N2 --> B[AMF]
+            B <-- N11 --> C[SMF]
+            C <-- N4 --> D[UPF]
+            B <-- N8 --> E[AUSF]
+            E <-- N12 --> F[UDM]
+            F <-- N13 --> G[UDR]
+            B <-- N15 --> H[NSSF]
+            C <-- N7 --> I[PCF]
+            J[NRF] <-- N22/N27 --> B
+            J <-- N23 --> C
+            J <-- N24 --> D
+            J <-- N26 --> E
+            J <-- N25 --> F
+            J <-- N29 --> G
+            J <-- N30 --> H
+            J <-- N28 --> I
+        end
+
+        subgraph "Management Plane"
+            K[NETCONF Server] <-- TCP/830 --> B
+            L[RESTCONF API] <-- HTTP/8081 --> C
+            M[SNMP Agent] <-- UDP/161 --> D
+            N[Grafana Dashboard] <-- HTTP/3000 --> M
+        end
+
+        subgraph "Monitoring & Analytics"
+            O[Prometheus] <-- SNMP --> M
+            N <-- HTTP --> O
+        end
+    end
+
+    subgraph "External Systems"
+        P[Network Management System] <-- NETCONF/RESTCONF --> K
+        P <-- SNMP --> M
+    end
+
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+    style E fill:#f3e5f5
+    style F fill:#f3e5f5
+    style G fill:#f3e5f5
+    style H fill:#f3e5f5
+    style I fill:#f3e5f5
+    style J fill:#f3e5f5
+    style K fill:#e8f5e8
+    style L fill:#e8f5e8
+    style M fill:#e8f5e8
+    style N fill:#fff3e0
+    style O fill:#fff3e0
+    style P fill:#fafafa
+
+    classDef core fill:#f3e5f5,stroke:#333;
+    classDef management fill:#e8f5e8,stroke:#333;
+    classDef monitoring fill:#fff3e0,stroke:#333;
+    classDef external fill:#fafafa,stroke:#333;
+    classDef ue fill:#e1f5fe,stroke:#333;
+
+    class A,ue
+    class B,C,D,E,F,G,H,I,J,core
+    class K,L,M,management
+    class N,O,monitoring
+    class P,external

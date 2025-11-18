@@ -1,0 +1,66 @@
+graph TB
+    subgraph "Management Plane Architecture"
+        A[Management Client] <-- NETCONF/RESTCONF --> B[Configuration Manager]
+        C[Network Management System] <-- SNMP --> D[Performance Monitor]
+        
+        subgraph "Configuration Management"
+            B --> E[YANG Models]
+            E --> F[NETCONF Server]
+            E --> G[RESTCONF API]
+        end
+        
+        subgraph "Performance Management"
+            D --> H[SNMP Agent]
+            H --> I[Metric Collection]
+            I --> J[Data Storage]
+        end
+        
+        subgraph "Visualization"
+            K[Grafana] <-- Metrics --> J
+            L[Web Dashboard] <-- REST API --> G
+        end
+    end
+    
+    subgraph "5G Core Network Functions"
+        M[AMF]
+        N[SMF]
+        O[UPF]
+        P[Other NFs]
+    end
+    
+    F <-- NETCONF --> M
+    G <-- HTTP/RESTCONF --> N
+    H <-- SNMP --> O
+    
+    style A fill:#e3f2fd
+    style B fill:#e8f5e8
+    style C fill:#e3f2fd
+    style D fill:#e8f5e8
+    style E fill:#fce4ec
+    style F fill:#f3e5f5
+    style G fill:#f3e5f5
+    style H fill:#e0f2f1
+    style I fill:#e0f2f1
+    style J fill:#e0f2f1
+    style K fill:#fff3e0
+    style L fill:#fff3e0
+    style M fill:#f1f8e9
+    style N fill:#f1f8e9
+    style O fill:#f1f8e9
+    style P fill:#f1f8e9
+
+    classDef client fill:#e3f2fd,stroke:#333;
+    classDef manager fill:#e8f5e8,stroke:#333;
+    classDef models fill:#fce4ec,stroke:#333;
+    classDef config fill:#f3e5f5,stroke:#333;
+    classDef perf fill:#e0f2f1,stroke:#333;
+    classDef viz fill:#fff3e0,stroke:#333;
+    classDef nf fill:#f1f8e9,stroke:#333;
+
+    class A,C,client
+    class B,D,manager
+    class E,models
+    class F,G,config
+    class H,I,J,perf
+    class K,L,viz
+    class M,N,O,P,nf

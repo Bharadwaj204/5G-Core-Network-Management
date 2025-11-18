@@ -1,0 +1,27 @@
+sequenceDiagram
+    participant NMS as Network Management System
+    participant Poller as SNMP Poller
+    participant Agent as SNMP Agent
+    participant UPF as UPF
+    participant DB as Time-Series Database
+
+    loop Every 30 seconds
+        NMS->>Poller: Schedule Polling
+        Poller->>Agent: SNMP GET Requests
+        Agent->>UPF: Collect Metrics
+        UPF-->>Agent: Metric Values
+        Agent-->>Poller: SNMP Responses
+        Poller->>DB: Store Metrics
+        DB-->>Poller: Confirmation
+        Poller-->>NMS: Polling Results
+    end
+
+    NMS->>DB: Query Historical Data
+    DB-->>NMS: Time-Series Data
+    NMS->>NMS: Generate Reports/Dashboards
+
+    style NMS fill:#e3f2fd,stroke:#333
+    style Poller fill:#e8f5e8,stroke:#333
+    style Agent fill:#f3e5f5,stroke:#333
+    style UPF fill:#f1f8e9,stroke:#333
+    style DB fill:#e0f2f1,stroke:#333

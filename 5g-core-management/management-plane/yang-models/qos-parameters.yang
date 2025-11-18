@@ -1,0 +1,94 @@
+module qos-parameters {
+  yang-version 1.1;
+  namespace "urn:5g-core:qos-parameters";
+  prefix "qos";
+
+  organization "5G Learning Initiative";
+  contact "support@5g-learning.org";
+  description
+    "YANG model for 5G QoS Parameters";
+
+  revision 2025-11-18 {
+    description "Initial revision";
+  }
+
+  container qos-profiles {
+    description "Container for QoS profiles";
+    
+    list profile {
+      key "profile-id";
+      description "List of QoS profiles";
+      
+      leaf profile-id {
+        type string;
+        description "Unique identifier for the QoS profile";
+      }
+      
+      leaf qfi {
+        type uint8 {
+          range "0..63";
+        }
+        description "QoS Flow Identifier";
+      }
+      
+      leaf resource-type {
+        type enumeration {
+          enum "gbr";
+          enum "non-gbr";
+        }
+        description "Resource type";
+      }
+      
+      leaf priority-level {
+        type uint8 {
+          range "1..127";
+        }
+        description "Priority level";
+      }
+      
+      leaf packet-delay-budget {
+        type uint16;
+        units "ms";
+        description "Packet delay budget in milliseconds";
+      }
+      
+      leaf packet-error-rate {
+        type string;
+        description "Packet error rate (e.g., 1e-6)";
+      }
+      
+      container gbr {
+        when "../resource-type = 'gbr'";
+        description "GBR specific parameters";
+        
+        leaf uplink {
+          type string;
+          units "bps";
+          description "Guaranteed Bit Rate - Uplink";
+        }
+        
+        leaf downlink {
+          type string;
+          units "bps";
+          description "Guaranteed Bit Rate - Downlink";
+        }
+      }
+      
+      container mbr {
+        description "Maximum Bit Rate parameters";
+        
+        leaf uplink {
+          type string;
+          units "bps";
+          description "Maximum Bit Rate - Uplink";
+        }
+        
+        leaf downlink {
+          type string;
+          units "bps";
+          description "Maximum Bit Rate - Downlink";
+        }
+      }
+    }
+  }
+}

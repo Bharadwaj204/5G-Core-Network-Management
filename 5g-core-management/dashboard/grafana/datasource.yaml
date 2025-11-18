@@ -1,0 +1,12 @@
+apiVersion: 1
+
+datasources:
+  - name: 5G-Core-SNMP
+    type: snmp
+    access: proxy
+    url: snmp://localhost:161
+    jsonData:
+      version: 2
+      community: public
+      securityLevel: NoAuthNoPriv
+    editable: true

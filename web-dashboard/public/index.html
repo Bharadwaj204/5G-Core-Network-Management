@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5G Core Network Management Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <header>
+        <h1>5G Core Network Management Dashboard</h1>
+        <nav>
+            <button id="refreshBtn">Refresh Data</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-section">
+            <h2>Real-time Metrics</h2>
+            <div class="metrics-container">
+                <div class="metric-card">
+                    <h3>AMF</h3>
+                    <div class="metric-item">
+                        <span class="metric-label">Active Sessions:</span>
+                        <span id="amf-active-sessions" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">CPU Utilization:</span>
+                        <span id="amf-cpu" class="metric-value">0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Memory Utilization:</span>
+                        <span id="amf-memory" class="metric-value">0%</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>SMF</h3>
+                    <div class="metric-item">
+                        <span class="metric-label">Active PDU Sessions:</span>
+                        <span id="smf-pdu-sessions" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">CPU Utilization:</span>
+                        <span id="smf-cpu" class="metric-value">0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Memory Utilization:</span>
+                        <span id="smf-memory" class="metric-value">0%</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>UPF</h3>
+                    <div class="metric-item">
+                        <span class="metric-label">Active Users:</span>
+                        <span id="upf-users" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Throughput:</span>
+                        <span id="upf-throughput" class="metric-value">0 bps</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Packet Loss:</span>
+                        <span id="upf-packet-loss" class="metric-value">0%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Network Functions</h2>
+            <div class="functions-container">
+                <div class="function-table">
+                    <h3>AMF Functions</h3>
+                    <table id="amf-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Capacity</th>
+                                <th>MCC</th>
+                                <th>MNC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- AMF data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="function-table">
+                    <h3>SMF Functions</h3>
+                    <table id="smf-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Capacity</th>
+                                <th>Connected UPFs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- SMF data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="function-table">
+                    <h3>UPF Functions</h3>
+                    <table id="upf-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Capacity</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- UPF data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Subscribers</h2>
+            <div class="subscribers-container">
+                <table id="subscribers-table">
+                    <thead>
+                        <tr>
+                            <th>IMSI</th>
+                            <th>MSISDN</th>
+                            <th>Status</th>
+                            <th>APN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Subscriber data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>5G Core Network Management Prototype &copy; 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

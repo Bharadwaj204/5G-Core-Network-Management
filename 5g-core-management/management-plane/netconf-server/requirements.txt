@@ -1,0 +1,4 @@
+ncclient==0.6.9
+lxml==4.6.3
+flask==2.0.1
+pyang==2.5.0
